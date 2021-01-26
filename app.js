@@ -2,15 +2,19 @@ const Manager = require("./lib/manager");
 const Engineer = require("./lib/engineer");
 const Intern = require("./lib/intern");
 const inquirer = require("inquirer");
-const renderer = require("./lib/htmlRenderer");
+const render = require("./lib/htmlRenderer");
+const path = require("path");
+const fs = require("fs");
 
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const team = [];
 
 function addTeam(){
     console.log("-------------------------------------------------------------------------------")
 
-    
+
     inquirer.prompt([
         {
             type: "list",

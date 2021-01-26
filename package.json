@@ -1,0 +1,27 @@
+{
+  "name": "template_engine",
+  "version": "1.0.0",
+  "description": "software engineering team generator command line application",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hinrichsad/Template_Engine.git"
+  },
+  "author": "Andrew Hinrichs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hinrichsad/Template_Engine/issues"
+  },
+  "homepage": "https://github.com/hinrichsad/Template_Engine#readme",
+  "dependencies": {
+    "inquirer": "^7.3.3",
+    "jest": "^26.6.3"
+  }
+}
