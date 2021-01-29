@@ -163,7 +163,7 @@ const addTeam = async () =>{
             }
         ]).then(resp => {
             if(resp.rep === "YES"){
-                addTeam()
+                addTeam();
             } else {
                 console.log(teamList)}
                 if (fs.existsSync (OUTPUT_DIR) != true ) {
