@@ -5,13 +5,16 @@ const inquirer = require("inquirer");
 const render = require("./lib/htmlRenderer");
 const path = require("path");
 const fs = require("fs");
+const { choices } = require("yargs");
 
+//defines path to the output html "team"
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const team = [];
+const teamList = [];
 
-function addTeam(){
+const addTeam = async () =>{
+
     console.log("-------------------------------------------------------------------------------")
 
 
@@ -31,7 +34,7 @@ function addTeam(){
         console.log(`You are a(n) ${val.role}`);
 
         switch(val.role){
-            //routes the user to different prompts based on answer
+            //routes the user to different prompts based on job title
             case "Manager":
                 createManager();
                 break;
@@ -42,8 +45,8 @@ function addTeam(){
                 createIntern();
                 break;
             case "Print Current Team":
-                console.log(team);
-                addTeam();
+                console.log(teamList);
+                repeat();
         }
     })
 
@@ -72,12 +75,12 @@ function addTeam(){
         ]).then(val => {
             console.log(val);
             console.log("-------------------------------------------------------------------------------")
-
+                //creates a new instance and then prompts the user to make a new employee or finish the teamList
             const manager = new Manager(val.mName, val.mId, val.mEmail, val.mOffice)
 
-            team.push(manager);
+            teamList.push(manager);
 
-            addTeam();
+            repeat();
         })
     }
     function createEngineer(){
@@ -108,9 +111,9 @@ function addTeam(){
 
             const engineer = new Engineer(val.eName, val.eId, val.eEmail, val.eGitHub)
 
-            team.push(engineer);
+            teamList.push(engineer);
 
-            addTeam();
+            repeat();
         })
     }
     function createIntern(){
@@ -141,13 +144,38 @@ function addTeam(){
 
             const intern = new Intern(val.iName, val.iId, val.iEmail, val.iSchool)
 
-            team.push(intern);
+            teamList.push(intern);
 
-            addTeam();
+            repeat();
         })
+    }
+        //decides when to stop the function
+    const repeat = () => {
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "rep",
+                message: "Add another employee?   ",
+                choices: [
+                    "YES",
+                    "NO"
+                ]
+            }
+        ]).then(resp => {
+            if(resp.rep === "YES"){
+                addTeam()
+            } else {
+                console.log(teamList)}
+                if (fs.existsSync (OUTPUT_DIR) != true ) {
+                    fs.mkdirSync(OUTPUT_DIR)
+                }
+                fs.writeFile(outputPath, render(teamList), (err) =>
+                    err ? console.log(err) : console.log("Success! Here is your Team!")
+                )
+        });
     }
 }
 
-module.exports = team;
-
 addTeam();
+
+module.exports = teamList;
